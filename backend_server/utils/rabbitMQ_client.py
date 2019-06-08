@@ -12,14 +12,14 @@ class RabbitMQClient:
         self.channel.queue_declare(queue=queue_name)
 
     # send a message
-    def sendMessage(self, message):
+    def sendMessage(message):
         self.channel.basic_publish(
             exchange='', routing_key=self.queue_name, body=json.dumps(message))
         
         print ("[X] Sent message to %s: %s" .format(self.queue_name, message))
         return
     # get a message
-    def getMessage(self):
+    def getMessage():
         method_frame, header_frame, body = self.channel.basic_get(self.queue_name)
         if method_frame is not None:
             print ("[O] receieved message from %s: %s" .format(self.queue_name, body))
@@ -29,5 +29,5 @@ class RabbitMQClient:
             print ("No message returned")
             return None
         
-    def sleep(self, seconds):
+    def sleep(seconds):
         self.connection.sleep(seconds)

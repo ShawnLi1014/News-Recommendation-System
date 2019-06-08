@@ -1,9 +1,6 @@
 var jayson = require('jayson');
 
-var client = jayson.client.http({
-    port: 4040,
-    hostName: 'localhost'
-});
+var client = jayson.client.http('http://localhost:5000/api');
 
 // Test RPC methods
 function add(a, b, callback) {

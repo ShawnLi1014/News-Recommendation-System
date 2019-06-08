@@ -1,3 +1,4 @@
-python-jsonrpc
+flask
+flask-jsonrpc
 pymongo
 pika
