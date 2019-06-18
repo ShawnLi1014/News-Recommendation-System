@@ -6,8 +6,7 @@ class NewsCard extends React.Component {
     redirectToUrl(url) {
         window.open(url, '_blank');
     }
-
-
+    
     render() {
         return (
             <div className='news-container' onClick={() => this.redirectToUrl(this.props.news.url)}>
