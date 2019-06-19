@@ -2,9 +2,12 @@ import "../../node_modules/materialize-css/dist/css/materialize.min.css";
 import "../../node_modules/materialize-css/dist/js/materialize.min";
 
 import React from "react";
+import {Switch, Route} from "react-router-dom";
 import './App.css';
 import NewsPanel from "../NewsPanel/NewsPanel";
+import Base from "../Base/Base";
 import LoginPage from "../Login/LoginPage";
+import SignUpPage from "../SignUp/SignUpPage";
 
 class App extends React.Component {
   render() {
@@ -12,8 +15,13 @@ class App extends React.Component {
       <div>
         <h1 className='title'>What's happening out there</h1>
         <div className='container'>
-          <NewsPanel />
-          <LoginPage />
+          <Base>
+            <Switch>
+              <Route path="/login" component={LoginPage} />
+              <Route path="/signup" component={SignUpPage} />
+              <Route path="/" component={NewsPanel} />
+            </Switch>
+          </Base>
         </div>
       </div>
     )

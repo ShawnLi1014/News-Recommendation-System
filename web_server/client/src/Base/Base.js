@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Auth from '../Auth/Auth.js';
 import './Base.css';
+import { Link, withRouter } from 'react-router-dom';
 
-const Base = ({ children }) => (
+const Base = ({ children, history }) => (
     <div>
         <nav className="nav-bar indigo lighten-1">
             <div className="nav-wrapper">
@@ -12,11 +13,15 @@ const Base = ({ children }) => (
                     {Auth.isUserAuthenticated() ?
                         (<div>
                             <li>{Auth.getEmail()}</li>
-                            <li><a href="/logout">Log out</a></li>
+                            <li>
+                                <button onClick={() => {
+                                    Auth.deauthenticateUser(() => history.push("/"));
+                                }}>Log out</button>
+                            </li>
                         </div>)
                         : (<div>
-                            <li><a href="/login">Log in</a></li>
-                            <li><a href="/signup">Sign up</a></li>
+                            <li><Link to="/login">Log in</Link></li>
+                            <li><Link to="/signup">Sign up</Link></li>
                         </div>)
                     } 
                 </ul>
@@ -31,4 +36,4 @@ Base.propTypes = {
     children: PropTypes.object.isRequired
 };
 
-export default Base;
+export default withRouter(Base);
