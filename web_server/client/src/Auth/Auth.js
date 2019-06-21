@@ -21,6 +21,8 @@ class Auth {
      * Deauthenticate a user. Remove token and email from localStorage
      */
     static deauthenticateUser() {
+        let token = localStorage.getItem('token')
+        console.log(token)
         localStorage.removeItem('token');
         localStorage.removeItem('email');
     }
@@ -31,6 +33,7 @@ class Auth {
      * @returns {string}
      */
     static getToken() {
+        console.log(localStorage.getItem('token'));
         return localStorage.getItem('token');
     }
 

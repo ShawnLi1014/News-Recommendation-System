@@ -1,6 +1,7 @@
 import "./NewsPanel.css";
 import React from 'react';
 import NewsCard from '../NewsCard/NewsCard';
+import Auth from '../Auth/Auth';
 import _ from 'lodash';
 
 class NewsPanel extends React.Component {
@@ -27,8 +28,12 @@ class NewsPanel extends React.Component {
     loadMoreNews(e) {
         let request = new Request('http://localhost:3000/news', {
             method: 'GET',
+            headers: {
+                'Authorization': 'bearer ' + Auth.getToken(),
+            },
             cache: 'no-cache',
         });
+        console.log(request);
 
         fetch(request)
             .then((res) => res.json())
@@ -58,20 +63,28 @@ class NewsPanel extends React.Component {
     }
 
     render() {
-        if(this.state.news) {
-            return (
-                <div>
-                    {this.renderNews()}
-                </div>
-            );
+        if (Auth.isUserAuthenticated()) {
+            if (this.state.news) {
+                return (
+                    <div>
+                        {this.renderNews()}
+                    </div>
+                );
+            } else {
+                return (
+                    <div>
+                        <div id='msg-app-loading'>
+                            Loading...
+                    </div>
+                    </div>
+                );
+            }
         } else {
-            return (
+            return(
                 <div>
-                    <div id='msg-app-loading'>
-                        Loading...
-                    </div>  
+                    please login first
                 </div>
-            );
+            )
         }
     }
 }

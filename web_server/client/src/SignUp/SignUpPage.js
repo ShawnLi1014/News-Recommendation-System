@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import SignUpForm from './SignUpForm';
 
 class SignUpPage extends Component {
-    constructor(props, context) {
-        super(props, context);
+    constructor(props) {
+        super(props);
 
         this.state = {
             errors: {},
@@ -24,7 +23,7 @@ class SignUpPage extends Component {
 
         const email = this.state.user.email;
         const password = this.state.user.password;
-        const confirm_password = this.getSnapshotBeforeUpdate.user.confirm_password;
+        const confirm_password = this.state.user.confirm_password;
 
         console.log('email: ', email);
         console.log('password: ', password);
@@ -51,7 +50,7 @@ class SignUpPage extends Component {
                     errors: {}
                 })
                 // Change current url to login
-                this.context.router.replace('/login');
+                this.props.history.push('/login');
             } else {
                 response.json().then(function(json){
                     console.log(json);
@@ -72,8 +71,8 @@ class SignUpPage extends Component {
         user[field] = event.target.value;
 
         this.setState({user});
-
-        if (this.state.password !== this.state.confirm_password) {
+        console.log(this.state.user.password);
+        if (this.state.user.password !== this.state.user.confirm_password) {
             const errors = this.state.errors;
             errors.password = "Password and Confirm Password don't match.";
             this.setState({ errors });
@@ -94,10 +93,6 @@ class SignUpPage extends Component {
             />
         );
     }
-}
-
-SignUpPage.contextType = {
-    router: PropTypes.object.isRequired
 }
 
 export default SignUpPage;

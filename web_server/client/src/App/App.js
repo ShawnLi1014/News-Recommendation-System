@@ -13,7 +13,6 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h1 className='title'>What's happening out there</h1>
         <div className='container'>
           <Base>
             <Switch>

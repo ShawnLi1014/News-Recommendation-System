@@ -6,17 +6,17 @@ import { Link, withRouter } from 'react-router-dom';
 
 const Base = ({ children, history }) => (
     <div>
-        <nav className="nav-bar indigo lighten-1">
+        <nav className="nav-bar lighten-1">
             <div className="nav-wrapper">
-                <a href="/" className="brand-logo">&nbsp;&nbsp;Tap News</a>
+                <Link to="/" className="brand-logo">&nbsp;&nbsp;Tap News</Link>
                 <ul id="nav-mobile" className="right">
                     {Auth.isUserAuthenticated() ?
                         (<div>
                             <li>{Auth.getEmail()}</li>
                             <li>
-                                <button onClick={() => {
-                                    Auth.deauthenticateUser(() => history.push("/"));
-                                }}>Log out</button>
+                                <a href='/' onClick={() => {
+                                    Auth.deauthenticateUser(() => this.props.history.push("/logout"));
+                                }}>Log out</a>
                             </li>
                         </div>)
                         : (<div>

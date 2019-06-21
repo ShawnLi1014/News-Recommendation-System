@@ -1,12 +1,11 @@
 // Handle the login logic
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Auth from '../Auth/Auth';
 import LoginForm from './LoginForm';
 
 class LoginPage extends Component {
-    constructor(props, context) {
-        super(props, context);
+    constructor(props) {
+        super(props);
         this.state = {
             errors: {},
             user: {
@@ -45,18 +44,18 @@ class LoginPage extends Component {
                     error: {}
                 });
                 
-                response.json().then(function(json) {
+                response.json().then((json) => {
                     console.log(json);
                     Auth.authenticateUser(json.token, email);
-                    this.context.router.replace('/');
-                }).bind(this);
+                    this.props.history.replace('/');
+                });
             } else {
                 console.log('login failed');
-                response.json().then(function (json) {
+                response.json().then((json) => {
                     const errors = json.errors ? json.errors : {};
                     errors.summary = json.message;
                     this.setState({errors});
-                }).bind(this);
+                });
             }
         });
     }
@@ -79,10 +78,6 @@ class LoginPage extends Component {
             />
         );
     }
-}
-
-LoginPage.contextTypes = {
-    router: PropTypes.object.isRequired
 }
 
 export default LoginPage;
