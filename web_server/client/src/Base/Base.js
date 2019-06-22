@@ -8,7 +8,7 @@ const Base = ({ children, history }) => (
     <div>
         <nav className="nav-bar lighten-1">
             <div className="nav-wrapper">
-                <Link to="/" className="brand-logo">&nbsp;&nbsp;Tap News</Link>
+                <Link to="/" className="brand-logo">&nbsp;&nbsp;NewsBoard</Link>
                 <ul id="nav-mobile" className="right">
                     {Auth.isUserAuthenticated() ?
                         (<div>

@@ -13,7 +13,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <div className='container'>
+        
           <Base>
             <Switch>
               <Route path="/login" component={LoginPage} />
@@ -21,7 +21,7 @@ class App extends React.Component {
               <Route path="/" component={NewsPanel} />
             </Switch>
           </Base>
-        </div>
+        
       </div>
     )
   }

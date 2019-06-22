@@ -13,8 +13,9 @@ exports.loginRequired = function(req, res, next) {
     // decode the token using a secret key-phrase
     return jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
         // the 401 code is for unauthorized status
-        if (err) { return res.status(401).end(); }
-        console.log(decoded);
+        if (err) { 
+            return res.status(401).end(); 
+        }
         const email = decoded.id;
         // check if a user exists
         return db.User.findById(email, (userErr, user) => {

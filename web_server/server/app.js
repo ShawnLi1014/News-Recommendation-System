@@ -12,7 +12,6 @@ const { loginRequired } = require("./middleware/auth_check");
 
 var indexRouter = require('./routes/index');
 var newsRouter = require('./routes/news');
-var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
 
 var app = express();

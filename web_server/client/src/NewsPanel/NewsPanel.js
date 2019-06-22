@@ -41,7 +41,7 @@ class NewsPanel extends React.Component {
                 this.setState({
                     news: this.state.news? this.state.news.concat(news) : news,
                 })
-            })
+            });
     }
 
     renderNews() {
@@ -54,7 +54,7 @@ class NewsPanel extends React.Component {
         });
 
         return (
-            <div className='container-fluid'>
+            <div className='container'>
                 <div className='list-group'>
                     {news_list}
                 </div>
@@ -68,20 +68,23 @@ class NewsPanel extends React.Component {
                 return (
                     <div>
                         {this.renderNews()}
-                    </div>
+                        {/* <div class="progress container">
+                            <div class="indeterminate"></div>
+                        </div> */}
+                    </div> 
                 );
             } else {
                 return (
                     <div>
-                        <div id='msg-app-loading'>
-                            Loading...
-                    </div>
+                        <div class="progress">
+                            <div class="indeterminate"></div>
+                        </div>
                     </div>
                 );
             }
         } else {
             return(
-                <div>
+                <div className='container'>
                     please login first
                 </div>
             )
