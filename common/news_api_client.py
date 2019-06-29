@@ -12,11 +12,13 @@ def buildUrl(end_point=NEWS_API_ENDPOINT, api_name=TOP_HEADLINES_API):
     print(end_point+api_name)
     return end_point+api_name
 
-def getNewsFromSource(sources=DEFAULT_SOURCES):
+
+def getNewsFromSource(sources=DEFAULT_SOURCES, pageSize=100):
     articles = []
     for source in sources:
         payload = {'apiKey': NEWS_API_KEY,
-                   'sources': sources}
+                   'sources': sources,
+                   'pageSize': pageSize}
         response = requests.get(buildUrl(), params=payload)
         print(response)
         res_json = loads(response.content)

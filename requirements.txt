@@ -4,3 +4,6 @@ pymongo
 pika
 requests
 redis
+lxml
+sklearn
+newspaper3k

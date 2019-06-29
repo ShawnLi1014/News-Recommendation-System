@@ -4,6 +4,7 @@ import json
 from bson.json_util import dumps
 from flask import Flask
 from flask_jsonrpc import JSONRPC
+import operations
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../', 'common'))
 import mongodb_client
@@ -32,6 +33,12 @@ def getNews():
     print(db)
     news = list(db['demo'].find())
     return json.loads(dumps(news))
+
+
+@jsonrpc.method('getNewsSummariesForUser')
+def getNewsSummariesForUser(user_id, page_num):
+    """Get news summary from mongodb"""
+    return operations.getNewsSummariesForUser(user_id, page_num)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
