@@ -1,15 +1,31 @@
 import './NewsCard.css';
-
 import React from 'react';
+import Auth from '../Auth/Auth';
 
 class NewsCard extends React.Component {
     redirectToUrl(url) {
+        this.sendClickLog();
         window.open(url, '_blank');
+    }
+
+    sendClickLog() {
+        let url = 'http://localhost:3000/news/userId/' + Auth.getEmail()
+                    + '/newsId/' + this.props.news.digest;
+
+        let request = new Request(encodeURI(url), {
+            method: 'POST',
+            headers: {
+                'Authorizatin': 'bearer ' + Auth.getToken(),
+            }, 
+            cache: "no-cache"
+        });
+
+        fetch(request);
     }
     
     render() {
         return (
-            <a className='news-container' href={this.props.news.url}>
+            <div className='news-container' onClick={() => this.redirectToUrl(this.props.news.url)}>
                 <div className='card horizontal'>
                     <div className='card-image'>
                         <img src={this.props.news.urlToImage} alt='news' />
@@ -28,7 +44,7 @@ class NewsCard extends React.Component {
                         </div>
                     </div>
                 </div>
-            </a>
+            </div>
         )
     }
 }

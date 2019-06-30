@@ -40,5 +40,11 @@ def getNewsSummariesForUser(user_id, page_num):
     """Get news summary from mongodb"""
     return operations.getNewsSummariesForUser(user_id, page_num)
 
+
+@jsonrpc.method('logNewsClickForUser')
+def logNewsClickForUser(user_id, news_id):
+    """Log user news clicks"""
+    return operations.logNewsClickForUser(user_id, news_id)
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
