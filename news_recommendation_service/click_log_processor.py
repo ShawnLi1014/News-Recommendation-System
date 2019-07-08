@@ -16,7 +16,7 @@ import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'common'))
 
-import mongo_client
+import mongodb_client
 from rabbitMQ_client import RabbitMQClient
 
 NUM_OF_CLASSES = 17
@@ -44,12 +44,12 @@ def handle_message(msg):
     userId = msg['userId']
     newsId = msg['newsId']
 
-    db = mongo_client.get_db()
+    db = mongodb_client.get_db()
     model = db[PREFERENCE_MODEL_TABLE_NAME].find_one({'userId': userId})
 
     if model is None:
         print('Creating preference model for new user: {}'.format(userId))
-        new_model = {'userId': 'userId'}
+        new_model = {'userId': userId}
         preference = {}
         for i in news_classes.classes:
             preference[i] = float(INITIAL_P)
@@ -73,12 +73,12 @@ def handle_message(msg):
     old_p = model['preference'][click_class]
     model['preference'][click_class] = float((1 - ALPHA) * old_p + ALPHA)
 
-    for i, prob in model['preference'].iteritems():
+    for i, prob in model['preference'].items():
         if not i == click_class:
             model['preference'][i] = float(
                 (1 - ALPHA) * model['preference'][i])
     
-    db[PREFERENCE_MODEL_TABLE_NAME].replace_one({'userId': userId}, model, upsert= True)
+    db[PREFERENCE_MODEL_TABLE_NAME].replace_one({'userId': userId}, model, upsert=True)
 
 
 def run():
@@ -91,7 +91,7 @@ def run():
                 except Exception as e:
                     print(e)
                     pass
-
+            click_queue_client.sleep(SLEEP_TIME_IN_SECONDS)
 
 if __name__ == "__main__":
     run()

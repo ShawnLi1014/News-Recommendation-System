@@ -8,6 +8,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'common'))
 
 import mongodb_client
 from rabbitMQ_client import RabbitMQClient
+import news_topic_modeling_service_client
 
 DEDUPE_NEWS_TASK_QUEUE_HOST = 'localhost'
 DEDUPE_NEWS_TASK_QUEUE_NAME = 'dedupe-news-task-queue'
@@ -31,12 +32,12 @@ def handle_message(msg):
     # Get recent news from mongodb
     published_at = parser.parse(task['publishedAt'])
     print(published_at)
-    published_at_day_begin = datetime.datetime(published_at.year, published_at.month, published_at.day - 1, 0, 0, 0, 0)
+    published_at_day_begin = published_at - datetime.timedelta(days=1)
     print(published_at_day_begin)
     published_at_day_end = published_at_day_begin + datetime.timedelta(days=2)
     print(published_at_day_end)
 
-    db = mongodb_client.get_db('test')
+    db = mongodb_client.get_db()
     recent_news_list = list(db[NEWS_TABLE_NAME].find({'publishedAt': {'$gte':published_at_day_begin, '$lt': published_at_day_end}}))
     print(len(recent_news_list))
 
@@ -59,6 +60,13 @@ def handle_message(msg):
                 return 
     
     task['publishedAt'] = parser.parse(task['publishedAt'])
+
+    # Classify news
+    title = task['title']
+    if title is not None:
+        topic = news_topic_modeling_service_client.classify(title)
+        task['class'] = topic
+    
     db[NEWS_TABLE_NAME].replace_one({'digest': task['digest']}, task, upsert=True)
 
 while True:

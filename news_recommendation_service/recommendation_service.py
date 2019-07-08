@@ -9,7 +9,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'common'))
 
 import mongodb_client
 
-PREFERENCE_MODEL_TABLE_NAME = "user_perference_model"
+PREFERENCE_MODEL_TABLE_NAME = "user_preference_model"
 
 SERVER_HOST = 'localhost'
 SERVER_PORT = 5050
@@ -24,7 +24,9 @@ jsonrpc = JSONRPC(app, '/api', enable_web_browsable_api=True)
 @jsonrpc.method('getPreferenceForUser')
 def getPreferenceForUser(user_id):
     db = mongodb_client.get_db()
+    print("hhhsdfkjasdkfaslkdf")
     model = db[PREFERENCE_MODEL_TABLE_NAME].find_one({'userId':user_id})
+    print(model)
     if model is None:
         return []
     sorted_tuples = sorted(model['preference'].items(), key=operator.itemgetter(1), reverse=True)
@@ -34,6 +36,7 @@ def getPreferenceForUser(user_id):
     # If the first preference is close to the last one, return empty
     if math.isclose(float(sorted_value_list[0]), float(sorted_value_list[-1]), rel_tol=1e-5):
         return []
+    print(sorted_list)
     return sorted_list
 
 if __name__ == '__main__':

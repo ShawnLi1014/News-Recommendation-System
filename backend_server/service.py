@@ -44,6 +44,7 @@ def getNewsSummariesForUser(user_id, page_num):
 @jsonrpc.method('logNewsClickForUser')
 def logNewsClickForUser(user_id, news_id):
     """Log user news clicks"""
+    print(user_id)
     return operations.logNewsClickForUser(user_id, news_id)
 
 if __name__ == '__main__':

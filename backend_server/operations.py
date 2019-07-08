@@ -12,6 +12,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'common'))
 import mongodb_client
 
 from rabbitMQ_client import RabbitMQClient
+import news_recommendation_service_client
 
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
@@ -58,14 +59,24 @@ def getNewsSummariesForUser(user_id, page_num):
         redis_client.expire(user_id, USER_NEWS_TIMEOUT_IN_SECONDS)
 
         sliced_news = total_news[begin_index:end_index]
+
+    preference = news_recommendation_service_client.getPreferenceForUser(user_id)
+    topPreference = None
+
+    if preference is not None and len(preference) > 0:
+        topPreference = preference[0]
     
     for news in sliced_news:
+
+        if news['class'] == topPreference:
+            news['reason'] = 'Recommend'
         if news['publishedAt'].date() == datetime.today().date():
             news['time'] = 'today'
     return json.loads(dumps(sliced_news))
 
 
 def logNewsClickForUser(user_id, news_id):
+    print("click")
     message = {'userId': user_id, 'newsId': news_id, 'timestamp': datetime.utcnow()}
 
     # Back up the log message to mongodb
